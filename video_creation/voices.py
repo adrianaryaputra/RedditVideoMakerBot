@@ -6,8 +6,8 @@ from rich.console import Console
 
 from TTS.engine_wrapper import TTSEngine
 from TTS.GTTS import GTTS
-from TTS.streamlabs_polly import StreamlabsPolly
-from TTS.aws_polly import AWSPolly
+# from TTS.streamlabs_polly import StreamlabsPolly
+# from TTS.aws_polly import AWSPolly
 from TTS.TikTok import TikTok
 from utils import settings
 from utils.console import print_table, print_step
@@ -15,13 +15,17 @@ from utils.console import print_table, print_step
 
 console = Console()
 
+# TTSProviders = {
+#     "GoogleTranslate": GTTS,
+#     "AWSPolly": AWSPolly,
+#     "StreamlabsPolly": StreamlabsPolly,
+#     "TikTok": TikTok,
+# }
+
 TTSProviders = {
     "GoogleTranslate": GTTS,
-    "AWSPolly": AWSPolly,
-    "StreamlabsPolly": StreamlabsPolly,
     "TikTok": TikTok,
 }
-
 
 def save_text_to_mp3(reddit_obj) -> Tuple[int, int]:
     """Saves text to MP3 files.

@@ -6,6 +6,7 @@ from os.path import exists
 from typing import Tuple, Any
 from moviepy.audio.AudioClip import concatenate_audioclips, CompositeAudioClip
 from moviepy.audio.io.AudioFileClip import AudioFileClip
+from moviepy.audio.fx.all import volumex
 from moviepy.video.VideoClip import ImageClip
 from moviepy.video.compositing.CompositeVideoClip import CompositeVideoClip
 from moviepy.video.compositing.concatenate import concatenate_videoclips
@@ -72,9 +73,11 @@ def make_final_video(
     )
 
     # Gather all audio clips
-    audio_clips = [AudioFileClip(f"assets/temp/mp3/{i}.mp3") for i in range(number_of_clips)]
+    # audio_clips = [AudioFileClip(f"assets/temp/mp3/{i}.mp3") for i in range(number_of_clips)]
+    audio_clips = [AudioFileClip(f"assets/temp/mp3/{i}.mp3").audio_fadein(0.01).audio_fadeout(0.01) for i in range(number_of_clips)]
     audio_clips.insert(0, AudioFileClip("assets/temp/mp3/title.mp3"))
     audio_concat = concatenate_audioclips(audio_clips)
+    audio_concat = audio_concat.fx(volumex, 1.3)
     audio_composite = CompositeAudioClip([audio_concat])
 
     console.log(f"[bold green] Video Will Be: {length} Seconds Long")
@@ -122,13 +125,14 @@ def make_final_video(
         print_substep("The results folder didn't exist so I made it")
         os.makedirs(f"./results/{subreddit}")
 
-    # if settings.config["settings"]['background']["background_audio"] and exists(f"assets/backgrounds/background.mp3"):
-    #    audioclip = mpe.AudioFileClip(f"assets/backgrounds/background.mp3").set_duration(final.duration)
-    #    audioclip = audioclip.fx( volumex, 0.2)
-    #    final_audio = mpe.CompositeAudioClip([final.audio, audioclip])
-    #    # lowered_audio = audio_background.multiply_volume( # todo get this to work
-    #    #    VOLUME_MULTIPLIER)  # lower volume by background_audio_volume, use with fx
-    #    final.set_audio(final_audio)
+    if settings.config["settings"]['background']["background_audio"]:
+        backsound_path = settings.config["settings"]['background']["background_audio"]
+        audioclip = AudioFileClip(backsound_path).set_duration(final.duration)
+        audioclip = audioclip.fx(volumex, 0.35)
+        final_audio = CompositeAudioClip([final.audio, audioclip])
+        # lowered_audio = audio_background.multiply_volume( # todo get this to work
+        # VOLUME_MULTIPLIER)  # lower volume by background_audio_volume, use with fx
+        final.set_audio(final_audio)
 
     final.write_videofile(
         "assets/temp/temp.mp4",

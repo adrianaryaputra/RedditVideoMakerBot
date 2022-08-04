@@ -38,10 +38,36 @@ background_options = {
         "bbswitzer",
         "center",
     ),
-    "gta": (  # GTA Stunt Race
+    "gta": ( 
         "https://www.youtube.com/watch?v=qGa9kWREOnE",
         "gta-stunt-race.mp4",
         "Achy Gaming",
+        lambda t: ("center", 480 + t),
+    ),
+    # septi's
+    "assassinscreedII": ( 
+        "https://www.youtube.com/watch?v=sBk7aTCdPO8&ab_channel=bacostick",
+        "asscreedII.mp4",
+        "bacostick",
+        lambda t: ("center", 480 + t),
+    ),
+    "minecraft2": ( 
+            "https://www.youtube.com/watch?v=GTaXbH6iSFA&ab_channel=SiswiZz",
+            "minecrafts2.mp4",
+            "SiswiZz",
+            lambda t: ("center", 480 + t),
+        ),
+
+    "trackmania": ( 
+            "https://www.youtube.com/watch?v=novrdkCkTPI&ab_channel=RACINGGAMES",
+            "trackmanias.mp4",
+            "RACING GAMES",
+            lambda t: ("center", 480 + t),
+        ),
+    "rocketleague": ( 
+        "https://www.youtube.com/watch?v=Cm_IxxqtjMM&ab_channel=ROCKETLEAGUEFX",
+        "rocksleague.mp4",
+        "ROCKET LEAGUE FX",
         lambda t: ("center", 480 + t),
     ),
 }

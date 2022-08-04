@@ -2,6 +2,7 @@
 import multiprocessing
 import os
 import re
+import random
 from os.path import exists
 from typing import Tuple, Any
 from moviepy.audio.AudioClip import concatenate_audioclips, CompositeAudioClip
@@ -125,14 +126,17 @@ def make_final_video(
         print_substep("The results folder didn't exist so I made it")
         os.makedirs(f"./results/{subreddit}")
 
-    if settings.config["settings"]['background']["background_audio"]:
-        backsound_path = settings.config["settings"]['background']["background_audio"]
-        audioclip = AudioFileClip(backsound_path).set_duration(final.duration)
-        audioclip = audioclip.fx(volumex, 0.35)
-        final_audio = CompositeAudioClip([final.audio, audioclip])
-        # lowered_audio = audio_background.multiply_volume( # todo get this to work
-        # VOLUME_MULTIPLIER)  # lower volume by background_audio_volume, use with fx
-        final.set_audio(final_audio)
+    ## Get backsound file
+    backsound_folder = "assets/backsounds/"
+    backsound_file = random.choice(os.listdir(backsound_folder))
+    backsound_path = backsound_folder + backsound_file
+
+    audioclip = AudioFileClip(backsound_path).set_duration(final.duration)
+    audioclip = audioclip.fx(volumex, 0.35)
+    final_audio = CompositeAudioClip([final.audio, audioclip])
+    # lowered_audio = audio_background.multiply_volume( # todo get this to work
+    # VOLUME_MULTIPLIER)  # lower volume by background_audio_volume, use with fx
+    final.set_audio(final_audio)
 
     final.write_videofile(
         "assets/temp/temp.mp4",

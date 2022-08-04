@@ -79,7 +79,17 @@ def make_final_video(
     audio_clips.insert(0, AudioFileClip("assets/temp/mp3/title.mp3"))
     audio_concat = concatenate_audioclips(audio_clips)
     audio_concat = audio_concat.fx(volumex, 1.3)
-    audio_composite = CompositeAudioClip([audio_concat])
+    # audio_composite = CompositeAudioClip([audio_concat])
+
+    ## Get backsound file
+    backsound_folder = "assets/backsounds/"
+    backsound_file = random.choice(os.listdir(backsound_folder))
+    backsound_path = backsound_folder + backsound_file
+    console.log(f"backsound_file: ", backsound_file)
+    audio_backsound = AudioFileClip(backsound_path).set_duration(audio_concat.duration)
+    audio_backsound = audio_backsound.fx(volumex, 0.65)
+    audio_composite = CompositeAudioClip([audio_concat, audio_backsound])
+
 
     console.log(f"[bold green] Video Will Be: {length} Seconds Long")
     # add title to video
@@ -126,17 +136,7 @@ def make_final_video(
         print_substep("The results folder didn't exist so I made it")
         os.makedirs(f"./results/{subreddit}")
 
-    ## Get backsound file
-    backsound_folder = "assets/backsounds/"
-    backsound_file = random.choice(os.listdir(backsound_folder))
-    backsound_path = backsound_folder + backsound_file
 
-    audioclip = AudioFileClip(backsound_path).set_duration(final.duration)
-    audioclip = audioclip.fx(volumex, 0.35)
-    final_audio = CompositeAudioClip([final.audio, audioclip])
-    # lowered_audio = audio_background.multiply_volume( # todo get this to work
-    # VOLUME_MULTIPLIER)  # lower volume by background_audio_volume, use with fx
-    final.set_audio(final_audio)
 
     final.write_videofile(
         "assets/temp/temp.mp4",

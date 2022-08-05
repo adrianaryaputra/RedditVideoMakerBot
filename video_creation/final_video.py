@@ -87,7 +87,7 @@ def make_final_video(
     backsound_path = backsound_folder + backsound_file
     console.log(f"backsound_file: ", backsound_file)
     audio_backsound = AudioFileClip(backsound_path).set_duration(audio_concat.duration)
-    audio_backsound = audio_backsound.fx(volumex, 0.65)
+    audio_backsound = audio_backsound.fx(volumex, 0.3)
     audio_composite = CompositeAudioClip([audio_concat, audio_backsound])
 
 

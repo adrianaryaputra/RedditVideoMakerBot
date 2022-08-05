@@ -89,16 +89,16 @@ def get_start_and_end_times(video_length: int, length_of_clip: int) -> Tuple[int
 
 def get_background_config():
     """Fetch the background/s configuration"""
-    try:
-        choice = str(settings.config["settings"]["background"]["background_choice"]).casefold()
-    except AttributeError:
-        print_substep("No background selected. Picking random background'")
-        choice = None
+    # try:
+    #     choice = str(settings.config["settings"]["background"]["background_choice"]).casefold()
+    # except AttributeError:
+    #     print_substep("No background selected. Picking random background'")
+    #     choice = None
 
     # Handle default / not supported background using default option.
     # Default : pick random from supported background.
-    if not choice or choice not in background_options:
-        choice = random.choice(list(background_options.keys()))
+
+    choice = random.choice(list(background_options.keys()))
 
     return background_options[choice]
 
